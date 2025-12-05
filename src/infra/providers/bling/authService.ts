@@ -15,14 +15,11 @@ let currentAccessToken: string | null = null;
 let currentRefreshToken: string | null = null;
 let tokenExpiresAt: number | null = null;
 
-const EXPIRATION_OFFSET = 5000; // 5 segundos
+const EXPIRATION_OFFSET = 5000; 
 
-// -----------------------------------------------------------
-// Carregar estado inicial
-// -----------------------------------------------------------
 export function loadInitialAuthState() {
     if (!fs.existsSync(statePath)) {
-        console.log("⚠ Nenhum blingState.json encontrado.");
+        console.log("Nenhum blingState.json encontrado.");
         currentRefreshToken = process.env.BLING_REFRESH_TOKEN || null;
         return;
     }
@@ -34,12 +31,9 @@ export function loadInitialAuthState() {
     currentRefreshToken = state.refresh_token;
     tokenExpiresAt = state.expires_at;
 
-    console.log("🔄 Estado carregado do blingState.json");
+    console.log("Estado carregado do blingState.json");
 }
 
-// -----------------------------------------------------------
-// Salvar estado
-// -----------------------------------------------------------
 function saveState() {
     const state: BlingState = {
         access_token: currentAccessToken,
@@ -50,15 +44,12 @@ function saveState() {
     fs.writeFileSync(statePath, JSON.stringify(state, null, 2));
 }
 
-// -----------------------------------------------------------
-// Refresh token
-// -----------------------------------------------------------
 export async function refreshBlingToken(): Promise<string> {
     if (!currentRefreshToken) {
         throw new Error("Nenhum refresh token disponível.");
     }
 
-    console.log("🔁 Renovando token do Bling...");
+    console.log("Renovando token do Bling..");
 
     const credentials = Buffer.from(
         `${process.env.BLING_CLIENT_ID}:${process.env.BLING_CLIENT_SECRET}`
@@ -85,13 +76,10 @@ export async function refreshBlingToken(): Promise<string> {
 
     saveState();
 
-    console.log("✅ Token atualizado com sucesso!");
+    console.log("Token atualizado com sucesso!");
     return currentAccessToken;
 }
 
-// -----------------------------------------------------------
-// Obter token válido
-// -----------------------------------------------------------
 export async function getBlingToken(): Promise<string> {
     if (!currentAccessToken || !tokenExpiresAt) {
         return refreshBlingToken();

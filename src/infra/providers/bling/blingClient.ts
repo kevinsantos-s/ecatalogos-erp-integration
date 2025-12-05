@@ -1,4 +1,3 @@
-// src/infra/providers/bling/blingClient.ts
 import axios, { AxiosRequestConfig } from "axios";
 import { getBlingToken } from "./authService";
 

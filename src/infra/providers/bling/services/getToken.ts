@@ -5,7 +5,7 @@ import "dotenv/config";
 
 const clientId = process.env.BLING_CLIENT_ID!;
 const clientSecret = process.env.BLING_CLIENT_SECRET!;
-const code = "f2cb37b678d2e3831652cc76e8f481c2d9f0e49e";
+const code = "0bd39faa93e3d9ac4ad44a20e8484650d1e08482";
 const redirectUri = "http://localhost:3001/callback";
 
 const credentials = Buffer.from(`${clientId}:${clientSecret}`).toString("base64");

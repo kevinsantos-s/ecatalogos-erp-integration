@@ -1,4 +1,3 @@
-// core/types/Product.ts
 export interface CoreSku {
   skusErpId: string;     // bling id
   skusCode: string;

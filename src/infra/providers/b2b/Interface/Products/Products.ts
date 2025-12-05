@@ -1,34 +1,24 @@
-export interface Products {
+export interface Product {
+  id: number;
   name: string;
   reference: string;
-  branches: {
-    id: number;
-    name: string;
-  };
-  prompt_delivery: number;
-  description: string;
-  erp_id: string;
-  deadline_id: number;
-  composition_data: string;
-  technical_information: string;
+  branch_id: number
+  prompt_delivery: boolean;
+  description?: string;
+  company_id: number;
+  erp_id?: string;
+  brand_id: number;
+  deadline_id?: number;
+  composition_data?: string;
+  technical_information?: string;
+  open_grid: boolean;
   ipi: number;
-  is_discontinued: number;
-  is_launch: number;
-  is_visible: number;
-  colection: string;
+  is_discontinued: boolean;
+  is_launch: boolean;
+  is_visible: boolean;
+  colection?: string;
   st: number;
   gender_id: number;
   category_id: number;
-  subcategory_id: number;
-  blocked_products_attendants: { id: number };
-  blocked_products_regions: { id: number };
-  blocked_products_shopkeeper: { id: number };
-  colors: { id: number };
-  brands: { id: number };
-  categories: { id: number };
-  companies: { id: number };
-  deadlines: { id: number };
-  gender: { id: number };
-  subcategories: { id: number };
-  variants: { id: number };
+  subcategory_id?: number;
 }

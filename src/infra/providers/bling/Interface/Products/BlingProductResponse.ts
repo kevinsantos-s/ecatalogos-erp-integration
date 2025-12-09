@@ -53,7 +53,7 @@ export interface BlingProduct {
 }
 
 export interface BlingMediaImage {
-  link: string; // link da imagem no Bling
+  link: string; 
 }
 
 export interface BlingMedia {

@@ -1,66 +1,31 @@
-export interface BlingCategory {
-  id: number;
-}
-
-export interface BlingStock {
-  minimo?: number; 
-  maximo?: number;  
-  crossdocking?: number; // 0 pronta entrega? vou ver depois kk fds 
-}
-
-export interface BlingDimensions {
-  largura: number;  
-  altura: number;  
-  profundidade: number;   
-  unidadeMedida: number;  
-}
-
-export interface BlingTributacao {
-  ipi?: number;
-  ncm?: string;  
-  cest?: string; 
-}
-
-export interface BlingVariacao {
-  id: number;    // equivalente aos SKU do b2b 
+export interface BlingProductResponse {
+  id: string;
   nome: string;
   codigo: string;
-  preco: number; //não vou usar por agora pq o b2b so tem um preço p/produto
-  estoque?: BlingStock;
-  variacao?: {
-    nome: string; // ex: "Tamanho:G;Cor:Verde"
+
+  descricao?: string;
+  marca?: { id: string | null };
+  categoria?: { id: string | null };
+  genero?: { id: string | null };
+
+  dataInclusao: string;
+  dataAlteracao: string;
+  dataExclusao?: string | null;
+
+  tributacao?: {
+    ipi?: string;
+    st?: string;
   };
-}
 
-export interface BlingProduct {
-  id: number;
-  nome: string;
-  codigo: string;
-  preco: number;
-  tipo?: string;
-  situacao: "A" | "I"; // ou string // vou tentar converter para productIsVisible (A = ativo, I = inativo)
-  formato?: string;
-  descricaoCurta?: string;
-  descricaoComplementar?: string;
+  composicao?: string;
+  infoTecnica?: string;
 
-  categoria?: BlingCategory;
-  estoque?: BlingStock;
-  dimensoes?: BlingDimensions;
-  tributacao?: BlingTributacao;
-  midia?: BlingMedia;
+  colecao?: string;
+  grid?: { aberto: boolean };
 
-  variacoes?: BlingVariacao[];
-}
+  situacao?: "A" | "I"; // ativo / inativo
 
-export interface BlingMediaImage {
-  link: string; 
-}
-
-export interface BlingMedia {
-  video?: {
-    url: string;
-  };
-  imagens?: {
-    imagensURL: BlingMediaImage[];
-  };
+  cores?: Array<{
+    id: string; // productColorErpId
+  }>;
 }

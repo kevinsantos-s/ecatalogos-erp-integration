@@ -1,5 +1,4 @@
 export interface CoreCompanyBusiness {
-  erpId: string;
   companyErpId: string;
 
   cnpj: string;
@@ -21,4 +20,5 @@ export interface CoreCompanyBusiness {
   city?: string;
   uf?: string;
   zipCode?: string;
+  companiesBusinessErpId: string;
 }

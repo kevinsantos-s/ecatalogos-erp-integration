@@ -1,14 +1,24 @@
-export interface Business {
-    id: number;
-    cnpj: string;
-    municipal_registration?: string;
-    state_registration?: string;
-    name: string;
-    fantasy_name?: string;
-    email?: string;
-    phone?: string;
-    cell_phone: string;
-    created_at: Date;
-    update_at?: Date;
-    deleted_at?: Date;
+export interface CompaniesBusiness {
+  companiesBusinessErpId: string;
+  companiesBusinessCompanyErpId: string;
+
+  companiesBusinessCnpj: string;
+  companiesBusinessMunicipalRegistration?: string;
+  companiesBusinessStateRegistration?: string;
+
+  companiesBusinessName: string;
+  companiesBusinessFantasyName?: string;
+
+  companiesBusinessEmail?: string;
+  companiesBusinessPhone?: string;
+  companiesBusinessCellPhone?: string;
+
+  companiesBusinessAddressErpId?: string;
+  companiesBusinessStreet?: string;
+  companiesBusinessNumber?: string;
+  companiesBusinessComplement?: string;
+  companiesBusinessNeighborhood?: string;
+  companiesBusinessCity?: string;
+  companiesBusinessUf?: string;
+  companiesBusinessZipCode?: string;
 }

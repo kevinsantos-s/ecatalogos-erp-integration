@@ -4,6 +4,12 @@
     "module": "CommonJS",
     "rootDir": "src",
     "outDir": "dist",
+
+    "baseUrl": "src",
+    "paths": {
+      "@/*": ["*"]
+    },
+
     "esModuleInterop": true,
     "strict": false,
     "skipLibCheck": true

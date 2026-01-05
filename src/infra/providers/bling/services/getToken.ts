@@ -2,10 +2,9 @@ import axios from "axios";
 import qs from "qs";
 import "dotenv/config";
 
-
 const clientId = process.env.BLING_CLIENT_ID!;
 const clientSecret = process.env.BLING_CLIENT_SECRET!;
-const code = "0bd39faa93e3d9ac4ad44a20e8484650d1e08482";
+const code = "6411e9d46edf946fb83f7771c5f0b55d8bb176d7";
 const redirectUri = "http://localhost:3001/callback";
 
 const credentials = Buffer.from(`${clientId}:${clientSecret}`).toString("base64");

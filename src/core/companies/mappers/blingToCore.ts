@@ -5,16 +5,19 @@ import { CoreCompanyBusiness } from "../interface/CoreCompanyBusiness";
 export function blingToCore(
   bling: BlingCompanyResponse
 ): { company: CoreCompany; business: CoreCompanyBusiness } {
+
+  const numericId = bling.id.replace(/\D/g, "").padStart(4, "0").slice(0, 4);
+
   return {
     company: {
-      erpId: `ERP-${bling.id.slice(0, 10)}`,        
+      erpId: `ERP-${numericId}`,        
       apiKey: `API-KEY-${bling.id}`,                
       deadlineType: "DEFINIDO",                    
       tools: "B2B",                              
     },
     business: {
-      companiesBusinessErpId: `ERP-BUS-${bling.id.slice(0, 10)}`,   
-      companyErpId: `ERP-${bling.id.slice(0, 10)}`, 
+      companiesBusinessErpId: `ERP-BUS-${numericId}`,   
+      companyErpId: `ERP-${numericId}`, 
       cnpj: bling.cnpj.replace(/\D/g, ""),       
       name: bling.nome,
       fantasyName: bling.nome,

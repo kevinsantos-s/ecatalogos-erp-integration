@@ -1,7 +1,7 @@
 import { getBlingCompany } from "../../../infra/providers/bling/Companies/services/getBlingCompany";
 import { blingToCore } from "../mappers/blingToCore";
 import { coreToB2B } from "../mappers/coreToB2B";
-import { b2bClient } from "../../../infra/providers/b2b/b2bClient";
+import { b2bClient } from "../../../infra/providers/b2b/services/b2bClient";
 
 export async function sendCompanyToB2B() {
   const blingCompany = await getBlingCompany();

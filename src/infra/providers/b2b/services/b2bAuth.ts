@@ -10,7 +10,7 @@ export async function getB2BToken() {
     {
       email: process.env.B2B_EMAIL,
       password: process.env.B2B_PASSWORD,
-      key: process.env.B2B_KEY,
+      key: Number(process.env.B2B_KEY),
     }
   );
 

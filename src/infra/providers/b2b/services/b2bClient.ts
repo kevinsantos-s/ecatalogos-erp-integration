@@ -17,9 +17,18 @@ b2bClient.interceptors.request.use(async (config) => {
 b2bClient.interceptors.response.use(
   (response) => response,
   async (error) => {
-    if (error.response?.status === 401) {
+    const originalRequest = error.config;
+
+    if (error.response?.status === 401 && !originalRequest._retry) {
+      originalRequest._retry = true;
+
       clearB2BToken();
+      const newToken = await getB2BToken();
+
+      originalRequest.headers.Authorization = `Bearer ${newToken}`;
+      return b2bClient(originalRequest);
     }
-    throw error;
+
+    return Promise.reject(error);
   }
 );

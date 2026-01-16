@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
-import { AxiosError } from "axios";
 import { CompaniesService } from "./companies.service";
+import { CompanyAlreadyExistsError } from "./errors/CompanyAlreadyExistError";
 
 export class CompaniesController {
   private service = new CompaniesService();
@@ -19,14 +19,10 @@ export class CompaniesController {
     } catch (error: unknown) {
       console.error(error);
 
-      if (error instanceof AxiosError) {
-        const message = error.response?.data?.message;
-
-        if (message?.includes("ERP_ID existente")) {
-          return res.status(409).json({
-            message: "Empresa já existe no B2B",
-          });
-        }
+      if (error instanceof CompanyAlreadyExistsError) {
+        return res.status(409).json({
+          message: error.message,
+        });
       }
 
       return res.status(500).json({

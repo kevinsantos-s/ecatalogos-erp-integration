@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+import { AxiosError } from "axios";
 import { CompaniesService } from "./companies.service";
 
 export class CompaniesController {
@@ -15,12 +16,21 @@ export class CompaniesController {
       const result = await this.service.sendCompany(blingCompanyId);
 
       return res.status(201).json(result);
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error(error);
 
+      if (error instanceof AxiosError) {
+        const message = error.response?.data?.message;
+
+        if (message?.includes("ERP_ID existente")) {
+          return res.status(409).json({
+            message: "Empresa já existe no B2B",
+          });
+        }
+      }
+
       return res.status(500).json({
-        message: "Erro ao enviar empresa",
-        error: error?.response?.data || error?.message,
+        message: "Erro interno ao enviar empresa",
       });
     }
   }

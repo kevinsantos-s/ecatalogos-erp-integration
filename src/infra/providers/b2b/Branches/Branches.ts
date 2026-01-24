@@ -25,3 +25,8 @@ export interface Branches {
     branchesBusinessZipCode?: string;
   };
 }
+
+export interface B2BBranchCreateResponse {
+  id: number;
+  branchesErpId?: string;
+}

@@ -1,4 +1,3 @@
-// src/modules/companies/companies.service.ts
 import { getBlingCompany } from "../../infra/providers/bling/Companies/services/getBlingCompany";
 import { blingToCore } from "../../core/companies/mappers/blingToCore";
 import { sendCompanyToB2B } from "../../core/companies/services/sendCompanyToB2B";

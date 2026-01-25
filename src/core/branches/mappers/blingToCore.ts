@@ -6,11 +6,11 @@ export function blingToCore(
   filial: BlingBranch
 ): CoreBranch {
   return {
-    erpId: String(filial.idUnidadeNegocio),
+    erpId: `ERP-String(filial.idUnidadeNegocio)`,
     name: filial.unidadeNegocio || bling.descricao,
 
     business: {
-      erpId: String(bling.id),
+      erpId: `ERP-${String(filial.idUnidadeNegocio)}`,
       cnpj: filial.cnpj,
       name: filial.unidadeNegocio,
     },

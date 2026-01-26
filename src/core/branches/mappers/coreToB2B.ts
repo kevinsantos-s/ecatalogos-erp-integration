@@ -11,7 +11,7 @@ export function coreToB2B(
     branchesCompanyErpId: branch.business?.erpId,
 
     branchesBusiness: {
-    branchesBusinessErpId: `${branch.erpId}-BUS-${Date.now()}`,
+    branchesBusinessErpId: `ERP-BUS-${Date.now()}`,
     branchesBusinessCnpj: branch.business?.cnpj || '',
     branchesBusinessName: branch.business?.name || '',
     branchesBusinessFantasyName: branch.business?.name || '',
@@ -24,7 +24,7 @@ export function coreToB2B(
     branchesBusinessUf: branch.address?.state || '',
     branchesBusinessZipCode: branch.address?.zipCode || '',
 
-    branchesBusinessAddressErpId: `${branch.erpId}-ADDR-${Date.now()}`
+    branchesBusinessAddressErpId: `ERP-${Date.now()}`
     },
   };
 }

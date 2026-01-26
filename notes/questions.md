@@ -19,3 +19,7 @@ R: QUANDO FOR CRIAR ATENDENTE no BLING, usar os contatos, e passar o attendant i
   "email": "joao@empresa.com",
   "observacoes": "ATTENDANT;ID=B2B-ATT-001"
 }
+
+O que fazer quando não há uma rota no Bling, mas que no B2B é obrigatório?
+
+R: 

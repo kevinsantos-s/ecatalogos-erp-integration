@@ -10,19 +10,21 @@ export function coreToB2B(
 
     branchesCompanyErpId: branch.business?.erpId,
 
-    branchesBusiness: branch.business || branch.address ? {
-      branchesBusinessErpId: branch.business?.erpId,
-      branchesBusinessCnpj: branch.business?.cnpj,
-      branchesBusinessName: branch.business?.name,
-      branchesBusinessFantasyName: branch.business?.name,
+    branchesBusiness: {
+    branchesBusinessErpId: `${branch.erpId}-BUS-${Date.now()}`,
+    branchesBusinessCnpj: branch.business?.cnpj || '',
+    branchesBusinessName: branch.business?.name || '',
+    branchesBusinessFantasyName: branch.business?.name || '',
 
-      branchesBusinessStreet: branch.address?.street,
-      branchesBusinessNumber: branch.address?.number,
-      branchesBusinessComplement: branch.address?.complement,
-      branchesBusinessNeighborhood: branch.address?.neighborhood,
-      branchesBusinessCity: branch.address?.city,
-      branchesBusinessUf: branch.address?.state,
-      branchesBusinessZipCode: branch.address?.zipCode,
-    } : undefined,
+    branchesBusinessStreet: branch.address?.street || '',
+    branchesBusinessNumber: branch.address?.number || '',
+    branchesBusinessComplement: branch.address?.complement || '',
+    branchesBusinessNeighborhood: branch.address?.neighborhood || '',
+    branchesBusinessCity: branch.address?.city || '',
+    branchesBusinessUf: branch.address?.state || '',
+    branchesBusinessZipCode: branch.address?.zipCode || '',
+
+    branchesBusinessAddressErpId: `${branch.erpId}-ADDR-${Date.now()}`
+    },
   };
 }

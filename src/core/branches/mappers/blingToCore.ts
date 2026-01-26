@@ -3,16 +3,21 @@ import { CoreBranch } from "../interface/CoreBranch";
 
 export function blingToCore(
   bling: BlingBranchResponse["data"],
-  filial: BlingBranch
+  filial: BlingBranch,
+  companyErpId: string
 ): CoreBranch {
   return {
-    erpId: `ERP-String(filial.idUnidadeNegocio)`,
+    erpId: `${companyErpId}-${filial.idUnidadeNegocio}`, 
     name: filial.unidadeNegocio || bling.descricao,
 
     business: {
-      erpId: `ERP-${String(filial.idUnidadeNegocio)}`,
+      erpId: companyErpId,
       cnpj: filial.cnpj,
       name: filial.unidadeNegocio,
+    },
+
+    address: {
+      erpId: `${companyErpId}-${filial.idUnidadeNegocio}`,
     },
 
     isDefault: filial.padrao,

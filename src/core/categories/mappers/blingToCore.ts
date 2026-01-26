@@ -6,7 +6,7 @@ export function blingToCoreCategory(
   bling: BlingCategoryResponse
 ): CoreCategory {
   return {
-    erpId: `ERP-${randomUUID().slice(0, 8)}`,
+    erpId: `ERP-${bling.id}`,
     name: bling.descricao,
   };
 }

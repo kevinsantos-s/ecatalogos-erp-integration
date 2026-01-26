@@ -16,6 +16,7 @@ export class CategoriesService {
     const coreCategories = blingCategories.map(blingToCoreCategory);
 
     let synced = 0;
+    let alreadyExists = 0;
 
     for (const category of coreCategories) {
       try {
@@ -23,6 +24,7 @@ export class CategoriesService {
         synced++;
       } catch (error: unknown) {
         if (isAxiosError(error) && error.response?.status === 409) {
+          alreadyExists++;
           continue;
         }
 
@@ -33,6 +35,7 @@ export class CategoriesService {
     return {
       total: coreCategories.length,
       synced,
+      alreadyExists,
     };
   }
 }

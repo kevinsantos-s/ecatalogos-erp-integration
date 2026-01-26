@@ -5,7 +5,14 @@ import { isAxiosError } from "../../shared/errors/isAxiosError";
 
 export class CategoriesService {
   async syncCategories() {
-    const blingCategories = await getBlingCategory();
+    const blingResponse = await getBlingCategory();
+    
+    const blingCategories = Array.isArray(blingResponse) 
+      ? blingResponse 
+      : Array.isArray((blingResponse as { data?: unknown }).data)
+        ? (blingResponse as { data: unknown[] }).data
+        : [];
+    
     const coreCategories = blingCategories.map(blingToCoreCategory);
 
     let synced = 0;

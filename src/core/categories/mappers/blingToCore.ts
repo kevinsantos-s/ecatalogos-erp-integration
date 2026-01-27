@@ -1,4 +1,3 @@
-import { randomUUID } from "crypto";
 import { CoreCategory } from "../interface/CoreCategory";
 import { BlingCategoryResponse } from "@/infra/providers/bling/Categories/interface/BlingCategoryResponse";
 

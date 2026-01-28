@@ -1,5 +1,5 @@
 import { getBlingBranch } from "../../infra/providers/bling/Branches/services/getBlingBranch";
-import { blingToCore } from "../../core/branches/mappers/blingToCore";
+import { blingToCoreBranch } from "../../core/branches/mappers/blingToCoreBranch";
 import { sendBranchToB2B } from "../../core/branches/services/sendBranchToB2B";
 import { CompaniesService } from "../../modules/companies/companies.service";
 import { isAxiosError } from "../../shared/errors/isAxiosError";
@@ -19,7 +19,7 @@ export class BranchesService {
 
       const results = [];
       for (const filial of blingBranch.data.filiais) {
-      const coreBranch = blingToCore(blingBranch.data, filial, companyErpId);
+      const coreBranch = blingToCoreBranch(blingBranch.data, filial, companyErpId);
       const result = await sendBranchToB2B(coreBranch);
       results.push(result);
       }

@@ -1,7 +1,7 @@
 import { CoreBranch } from "../interface/CoreBranch";
 import { Branches } from "../../../infra/providers/b2b/Branches/Branches";
 
-export function coreToB2B(
+export function coreToB2BBranch(
   branch: CoreBranch
 ): Branches {
   return {

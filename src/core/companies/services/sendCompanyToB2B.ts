@@ -1,4 +1,4 @@
-import { coreToB2B } from "../mappers/coreToB2B";
+import { coreToB2B } from "../mappers/coreToB2BCompany";
 import { b2bClient } from "../../../infra/providers/b2b/services/b2bClient";
 import { CoreCompany } from "../interface/CoreCompany";
 import { CoreCompanyBusiness } from "../interface/CoreCompanyBusiness";

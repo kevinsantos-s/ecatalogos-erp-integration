@@ -1,5 +1,5 @@
 import { getBlingCategory } from "../../infra/providers/bling/Categories/services/getBlingCategory";
-import { blingToCoreCategory } from "../../core/categories/mappers/blingToCore";
+import { blingToCoreCategory } from "../../core/categories/mappers/blingToCoreCategory";
 import { sendCategoryToB2B } from "../../core/categories/services/sendCategoryToB2B";
 import { isAxiosError } from "../../shared/errors/isAxiosError";
 

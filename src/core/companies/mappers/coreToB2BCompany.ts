@@ -2,7 +2,7 @@ import { CoreCompany } from "../interface/CoreCompany";
 import { CoreCompanyBusiness } from "../interface/CoreCompanyBusiness";
 import { Companies } from "../../../infra/providers/b2b/Companies/interface/Companies";
 
-export function coreToB2B(
+export function coreToB2BCompany(
   company: CoreCompany,
   business: CoreCompanyBusiness
 ): Companies {

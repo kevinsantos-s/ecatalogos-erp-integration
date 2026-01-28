@@ -1,5 +1,5 @@
 import { getBlingCompany } from "../../infra/providers/bling/Companies/services/getBlingCompany";
-import { blingToCore } from "../../core/companies/mappers/blingToCore";
+import { blingToCoreCompany } from "../../core/companies/mappers/blingToCoreCompany";
 import { sendCompanyToB2B } from "../../core/companies/services/sendCompanyToB2B";
 import { CompanyAlreadyExistsError } from "./errors/CompanyAlreadyExistError";
 import { isAxiosError } from "../../shared/errors/isAxiosError";
@@ -8,7 +8,7 @@ export class CompaniesService {
     
     try {
       const blingCompany = await getBlingCompany(blingCompanyId);
-      const { company, business } = blingToCore(blingCompany);
+      const { company, business } = blingToCoreCompany(blingCompany);
       const result = await sendCompanyToB2B(company, business);
 
       return {
@@ -29,7 +29,7 @@ export class CompaniesService {
   }
   async getCompany(blingCompanyId: number) {
     const blingCompany = await getBlingCompany(blingCompanyId)
-    const { company } = blingToCore(blingCompany)
+    const { company } = blingToCoreCompany(blingCompany)
     return company.erpId;
   }
 }

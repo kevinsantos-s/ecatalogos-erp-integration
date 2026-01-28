@@ -1,7 +1,7 @@
 import { BlingBranchResponse, BlingBranch } from "../../../infra/providers/bling/Branches/interface/BlingBranchResponse";
 import { CoreBranch } from "../interface/CoreBranch";
 
-export function blingToCore(
+export function blingToCoreBranch(
   bling: BlingBranchResponse["data"],
   filial: BlingBranch,
   companyErpId: string

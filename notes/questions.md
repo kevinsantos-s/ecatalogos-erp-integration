@@ -23,3 +23,6 @@ R: QUANDO FOR CRIAR ATENDENTE no BLING, usar os contatos, e passar o attendant i
 O que fazer quando não há uma rota no Bling, mas que no B2B é obrigatório?
 
 R: 
+
+
+como funciona o branches(envio de filiais)?

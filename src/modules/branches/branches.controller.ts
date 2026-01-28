@@ -4,22 +4,21 @@ import { BranchesService } from "./branches.service";
 export class BranchesController {
   private service = new BranchesService();
 
-  async sendBranch(req: Request, res: Response) {
+  async sync(req: Request, res: Response) {
     try {
-      const blingBranchId = Number(req.params.blingBranchId);
-
-      if (isNaN(blingBranchId)) {
-        return res.status(400).json({ message: "blingBranchId inválido" });
+      const { companyErpId } = req.body;
+      
+      const result = await this.service.syncBranches(companyErpId);
+      return res.status(201).json(result);
+    } catch (error) {
+      console.error(error);
+      
+      if (error instanceof Error && error.message === "companyErpId é obrigatório") {
+        return res.status(400).json({ message: error.message });
       }
 
-      const result = await this.service.sendBranch(blingBranchId);
-
-      return res.status(201).json(result);
-    } catch (error: unknown) {
-      console.error(error);
-
       return res.status(500).json({
-        message: "Erro interno ao enviar filial",
+        message: "Erro ao sincronizar filiais",
       });
     }
   }

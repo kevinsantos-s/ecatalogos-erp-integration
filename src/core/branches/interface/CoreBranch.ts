@@ -1,6 +1,7 @@
 export interface CoreBranch {
   erpId: string;
   name: string;
+  companyErpId: string,
 
   business?: {
     erpId?: string;

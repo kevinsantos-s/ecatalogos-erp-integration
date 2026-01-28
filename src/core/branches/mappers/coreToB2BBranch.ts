@@ -8,7 +8,7 @@ export function coreToB2BBranch(
     branchesErpId: branch.erpId,
     branchesName: branch.name,
 
-    branchesCompanyErpId: branch.business?.erpId,
+    branchesCompanyErpId: branch.companyErpId,
 
     branchesBusiness: {
     branchesBusinessErpId: `ERP-BUS-${Date.now()}`,

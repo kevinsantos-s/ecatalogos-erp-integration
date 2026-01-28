@@ -4,11 +4,12 @@ import { CoreBranch } from "../interface/CoreBranch";
 export function blingToCoreBranch(
   bling: BlingBranchResponse["data"],
   filial: BlingBranch,
-  companyErpId: string
+  companyErpId
 ): CoreBranch {
   return {
     erpId: `${companyErpId}-${filial.idUnidadeNegocio}`, 
     name: filial.unidadeNegocio || bling.descricao,
+    companyErpId,
 
     business: {
       erpId: companyErpId,

@@ -1,43 +1,50 @@
 import { getBlingBranch } from "../../infra/providers/bling/Branches/services/getBlingBranch";
+import { getAllBlingChannels } from "../../infra/providers/bling/Branches/services/getAllBlingChannels";
 import { blingToCoreBranch } from "../../core/branches/mappers/blingToCoreBranch";
 import { sendBranchToB2B } from "../../core/branches/services/sendBranchToB2B";
-import { CompaniesService } from "../../modules/companies/companies.service";
 import { isAxiosError } from "../../shared/errors/isAxiosError";
 
 export class BranchesService {
-  private companiesService = new CompaniesService(); 
+  async syncBranches(companyErpId: string) {
 
-  async sendBranch(blingBranchId: number, blingCompanyId: number) {
-    try {
-      const blingBranch = await getBlingBranch(blingBranchId);
+     if (!companyErpId) {
+      throw new Error("companyErpId é obrigatório");
+    }
 
-      if (!blingBranch.data.filiais || blingBranch.data.filiais.length === 0) {
-        throw new Error("Nenhuma filial encontrada");
-      }
+    let synced = 0;
+    let alreadyExists = 0;
 
-      const companyErpId = await this.companiesService.getCompany(blingCompanyId);
+    const channelsResponse = await getAllBlingChannels();
+    const channels = channelsResponse.data || [];
 
-      const results = [];
-      for (const filial of blingBranch.data.filiais) {
-      const coreBranch = blingToCoreBranch(blingBranch.data, filial, companyErpId);
-      const result = await sendBranchToB2B(coreBranch);
-      results.push(result);
-      }
+    for (const channel of channels) {
+      const branchResponse = await getBlingBranch(channel.id);
+      const filiais = branchResponse.data?.filiais || [];
 
-      return {
-        message: `${results.length} filial enviada com sucesso`,
-        results
-      };
-    } catch (error: unknown) {
-      if (isAxiosError(error)) {
-        const status = error.response?.status;
+      for (const filial of filiais) {
+        const coreBranch = blingToCoreBranch(
+          branchResponse.data,
+          filial,
+          companyErpId
+        );
 
-        if (status === 409) {
+        try {
+          await sendBranchToB2B(coreBranch);
+          synced++;
+        } catch (error) {
+          if (isAxiosError(error) && error.response?.status === 409) {
+            alreadyExists++;
+            continue;
+          }
           throw error;
         }
       }
-
-      throw error;
     }
+
+    return {
+      total: synced + alreadyExists,
+      synced,
+      alreadyExists,
+    };
   }
 }

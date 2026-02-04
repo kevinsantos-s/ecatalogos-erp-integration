@@ -19,15 +19,36 @@ model User {
   @@map("users")
 }
 
+model BlingCompany {
+  id             String   @id @default(uuid())
+  blingCompanyId String   @unique
+
+  nome           String?
+  cnpj           String?
+  email          String?
+
+  auth           BlingAuth?
+  companies      Company[]
+
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  @@map("bling_companies")
+}
+
 model BlingAuth {
-  id           String   @id @default(uuid())
-  userId       String   @unique
-  accessToken  String
-  refreshToken String
-  expiresAt    DateTime
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
-  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id             String   @id @default(uuid())
+
+  blingCompanyId String   @unique
+  accessToken    String
+  refreshToken   String
+  expiresAt      DateTime
+
+  blingCompany   BlingCompany
+    @relation(fields: [blingCompanyId], references: [blingCompanyId], onDelete: Cascade)
+
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
 
   @@map("bling_auth")
 }
@@ -45,16 +66,21 @@ model B2BAuth {
 }
 
 model Company {
-  id              String   @id @default(uuid())
-  userId          String
-  blingCompanyId  String?
-  b2bCompanyErpId String
-  name            String
-  cnpj            String?
-  active          Boolean  @default(true)
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
-  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id               String   @id @default(uuid())
+
+  userId           String
+  blingCompanyId   String?
+  b2bCompanyErpId  String
+
+  name             String
+  cnpj             String?
+  active           Boolean  @default(true)
+
+  user             User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  blingCompany     BlingCompany? @relation(fields: [blingCompanyId], references: [blingCompanyId])
+
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
 
   @@unique([userId, b2bCompanyErpId])
   @@index([userId])

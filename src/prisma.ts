@@ -1,16 +1,9 @@
+import "dotenv/config";
 import { PrismaClient } from "@prisma/client";
+import { PrismaPg } from "@prisma/adapter-pg";
 
-class PrismaService {
-  private static instance: PrismaClient;
+const adapter = new PrismaPg({
+  connectionString: process.env.DATABASE_URL!,
+});
 
-  private constructor() {}
-
-  public static getInstance(): PrismaClient {
-    if (!PrismaService.instance) {
-      PrismaService.instance = new PrismaClient();
-    }
-    return PrismaService.instance;
-  }
-}
-
-export const prisma = PrismaService.getInstance();
+export const prisma = new PrismaClient({ adapter });

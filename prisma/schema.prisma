@@ -7,13 +7,14 @@ datasource db {
 }
 
 model User {
-  id        String     @id @default(uuid())
-  email     String     @unique
+  id        String   @id @default(uuid())
+  email     String   @unique
   name      String
-  createdAt DateTime   @default(now())
-  updatedAt DateTime   @updatedAt
-  b2bAuth   B2BAuth?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
   blingAuth BlingAuth?
+  b2bAuth   B2BAuth?
   companies Company[]
 
   @@map("users")
@@ -38,14 +39,15 @@ model BlingCompany {
 
 model BlingAuth {
   id             String   @id @default(uuid())
+  userId         String   @unique
 
   blingCompanyId String   @unique
   accessToken    String
   refreshToken   String
   expiresAt      DateTime
 
-  blingCompany   BlingCompany
-    @relation(fields: [blingCompanyId], references: [blingCompanyId], onDelete: Cascade)
+  user           User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  blingCompany   BlingCompany @relation(fields: [blingCompanyId], references: [blingCompanyId], onDelete: Cascade)
 
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
@@ -54,33 +56,36 @@ model BlingAuth {
 }
 
 model B2BAuth {
-  id          String    @id @default(uuid())
-  userId      String    @unique
+  id          String   @id @default(uuid())
+  userId      String   @unique
+
   accessToken String
   expiresAt   DateTime?
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
-  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 
   @@map("b2b_auth")
 }
 
 model Company {
-  id               String   @id @default(uuid())
+  id              String   @id @default(uuid())
 
-  userId           String
-  blingCompanyId   String?
-  b2bCompanyErpId  String
+  userId          String
+  blingCompanyId  String?
+  b2bCompanyErpId String
 
-  name             String
-  cnpj             String?
-  active           Boolean  @default(true)
+  name            String
+  cnpj            String?
+  active          Boolean  @default(true)
 
-  user             User          @relation(fields: [userId], references: [id], onDelete: Cascade)
-  blingCompany     BlingCompany? @relation(fields: [blingCompanyId], references: [blingCompanyId])
+  user            User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  blingCompany    BlingCompany? @relation(fields: [blingCompanyId], references: [blingCompanyId])
 
-  createdAt        DateTime @default(now())
-  updatedAt        DateTime @updatedAt
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
 
   @@unique([userId, b2bCompanyErpId])
   @@index([userId])

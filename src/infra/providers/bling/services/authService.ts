@@ -1,5 +1,6 @@
 import { prisma } from "../../../../prisma";
 import axios from "axios";
+import { BlingCompanyResponse } from "../Companies/interface/BlingCompanyResponse";
 
 const BLING_ACCESS_TOKEN_URL = process.env.BLING_ACCESS_TOKEN_URL!;
 const BLING_CLIENT_ID = process.env.BLING_CLIENT_ID!;
@@ -65,29 +66,29 @@ async function saveBlingToken({
   accessToken: string;
   refreshToken: string;
   expiresIn: number;
-  companyData: any;
+  companyData?: BlingCompanyResponse;
 }) {
   const expiresAt = new Date(Date.now() + expiresIn * 1000);
 
   await prisma.blingCompany.upsert({
     where: { blingCompanyId },
-    update: {
+    update: companyData ? {
       nome: companyData.nome,
       cnpj: companyData.cnpj,
       email: companyData.email,
-    },
-    create: {
+    } : {},
+    create: { 
       blingCompanyId,
-      nome: companyData.nome,
-      cnpj: companyData.cnpj,
-      email: companyData.email,
+      nome: companyData?.nome,
+      cnpj: companyData?.cnpj,
+      email: companyData?.email,
     },
   });
 
   return prisma.blingAuth.upsert({
     where: { blingCompanyId },
     update: { accessToken, refreshToken, expiresAt },
-    create: { blingCompanyId, accessToken, refreshToken, expiresAt },
+    create: { accessToken, refreshToken, expiresAt, blingCompany: { connect: {blingCompanyId}} },
   });
 }
 
@@ -124,7 +125,6 @@ export async function getBlingToken(blingCompanyId: string): Promise<string> {
       accessToken: access_token,
       refreshToken: refresh_token,
       expiresIn: expires_in,
-      companyData: {},
     });
 
     return access_token;

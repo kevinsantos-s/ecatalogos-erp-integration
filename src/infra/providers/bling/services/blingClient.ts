@@ -1,5 +1,5 @@
 import axios, { AxiosRequestConfig } from "axios";
-import { getBlingToken } from "./authService";
+import { getBlingToken } from "../Auth/auth.service";
 
 const BLING_BASE = process.env.BLING_URL!;
 

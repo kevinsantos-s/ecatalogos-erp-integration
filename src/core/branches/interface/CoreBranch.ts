@@ -1,6 +1,7 @@
 export interface CoreBranch {
   erpId: string;
   name: string;
+  companyErpId: string,
 
   business?: {
     erpId?: string;
@@ -9,6 +10,7 @@ export interface CoreBranch {
   };
 
   address?: {
+    erpId: string;
     street?: string;
     number?: string;
     complement?: string;

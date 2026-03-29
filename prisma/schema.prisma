@@ -1,7 +1,60 @@
-datasource db {
-  provider = "mysql"
-}
-
 generator client {
   provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model BlingCompany {
+  id             String   @id @default(uuid())
+  blingCompanyId String   @unique
+
+  nome           String?
+  cnpj           String?
+  email          String?
+
+  auth           BlingAuth?
+  companies      Company[]
+
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  @@map("bling_companies")
+}
+
+model BlingAuth {
+  id             String   @id @default(uuid())
+
+  blingCompanyId String   @unique
+  accessToken    String
+  refreshToken   String
+  expiresAt      DateTime
+
+  blingCompany   BlingCompany @relation(fields: [blingCompanyId], references: [blingCompanyId], onDelete: Cascade)
+
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  @@map("bling_auth")
+}
+
+model Company {
+  id              String   @id @default(uuid())
+
+  blingCompanyId  String?
+  b2bCompanyErpId String
+
+  name            String
+  cnpj            String?
+  active          Boolean  @default(true)
+
+  blingCompany    BlingCompany? @relation(fields: [blingCompanyId], references: [blingCompanyId], onDelete: SetNull)
+
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@unique([b2bCompanyErpId])
+  @@index([blingCompanyId])
+  @@map("companies")
 }

@@ -1,14 +1,22 @@
 import { getBlingCategory } from "../../infra/providers/bling/Categories/services/getBlingCategory";
-import { blingToCoreCategory } from "../../core/categories/mappers/blingToCore";
+import { blingToCoreCategory } from "../../core/categories/mappers/blingToCoreCategory";
 import { sendCategoryToB2B } from "../../core/categories/services/sendCategoryToB2B";
 import { isAxiosError } from "../../shared/errors/isAxiosError";
 
 export class CategoriesService {
   async syncCategories() {
-    const blingCategories = await getBlingCategory();
+    const blingResponse = await getBlingCategory();
+    
+    const blingCategories = Array.isArray(blingResponse) 
+      ? blingResponse 
+      : Array.isArray((blingResponse as { data?: unknown }).data)
+        ? (blingResponse as { data: unknown[] }).data
+        : [];
+    
     const coreCategories = blingCategories.map(blingToCoreCategory);
 
     let synced = 0;
+    let alreadyExists = 0;
 
     for (const category of coreCategories) {
       try {
@@ -16,6 +24,7 @@ export class CategoriesService {
         synced++;
       } catch (error: unknown) {
         if (isAxiosError(error) && error.response?.status === 409) {
+          alreadyExists++;
           continue;
         }
 
@@ -26,6 +35,7 @@ export class CategoriesService {
     return {
       total: coreCategories.length,
       synced,
+      alreadyExists,
     };
   }
 }

@@ -2,7 +2,7 @@ import { BlingCompanyResponse } from "../../../infra/providers/bling/Companies/i
 import { CoreCompany } from "../interface/CoreCompany";
 import { CoreCompanyBusiness } from "../interface/CoreCompanyBusiness";
 
-export function blingToCore(
+export function blingToCoreCompany(
   bling: BlingCompanyResponse
 ): { company: CoreCompany; business: CoreCompanyBusiness } {
 

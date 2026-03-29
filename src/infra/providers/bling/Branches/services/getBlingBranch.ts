@@ -2,10 +2,10 @@ import { blingGet } from "../../../../../infra/providers/bling/services/blingCli
 import { BlingBranchResponse } from "../interface/BlingBranchResponse";
 
 export async function getBlingBranch(
-  canalVendaId: number
+  IdcanalVenda: number
 ): Promise<BlingBranchResponse> {
   const response = await blingGet<BlingBranchResponse>(
-    `/canais-vendas/${canalVendaId}`
+    `/canais-venda/${IdcanalVenda}`
   );
 
   return response;

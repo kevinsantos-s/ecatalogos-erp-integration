@@ -5,8 +5,8 @@ const branchesRoutes = Router();
 const controller = new BranchesController();
 
 branchesRoutes.post(
-  "/sync/:blingBranchId",
-  controller.sendBranch.bind(controller)
+  "/sync",
+  controller.sync.bind(controller)
 );
 
 export { branchesRoutes };

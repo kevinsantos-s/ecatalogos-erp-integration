@@ -1,4 +1,4 @@
-import { coreToB2BCategory } from "../mappers/coreToB2B";
+import { coreToB2BCategory } from "../mappers/coreToB2BCategory";
 import { b2bClient } from "../../../infra/providers/b2b/services/b2bClient";
 import { CoreCategory } from "../interface/CoreCategory";
 

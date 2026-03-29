@@ -1,38 +1,50 @@
 import { getBlingBranch } from "../../infra/providers/bling/Branches/services/getBlingBranch";
-import { blingToCore } from "../../core/branches/mappers/blingToCore";
+import { getAllBlingChannels } from "../../infra/providers/bling/Branches/services/getAllBlingChannels";
+import { blingToCoreBranch } from "../../core/branches/mappers/blingToCoreBranch";
 import { sendBranchToB2B } from "../../core/branches/services/sendBranchToB2B";
 import { isAxiosError } from "../../shared/errors/isAxiosError";
 
 export class BranchesService {
-  async sendBranch(blingBranchId: number) {
-    try {
-      const blingBranch = await getBlingBranch(blingBranchId);
+  async syncBranches(companyErpId: string) {
 
-      if (!blingBranch.data.filiais || blingBranch.data.filiais.length === 0) {
-        throw new Error("Nenhuma filial encontrada");
-      }
+     if (!companyErpId) {
+      throw new Error("companyErpId é obrigatório");
+    }
 
-      const results = [];
-      for (const filial of blingBranch.data.filiais) {
-        const coreBranch = blingToCore(blingBranch.data, filial);
-        const result = await sendBranchToB2B(coreBranch);
-        results.push(result);
-      }
+    let synced = 0;
+    let alreadyExists = 0;
 
-      return {
-        message: `${results.length} filial enviada com sucesso`,
-        results
-      };
-    } catch (error: unknown) {
-      if (isAxiosError(error)) {
-        const status = error.response?.status;
+    const channelsResponse = await getAllBlingChannels();
+    const channels = channelsResponse.data || [];
 
-        if (status === 409) {
+    for (const channel of channels) {
+      const branchResponse = await getBlingBranch(channel.id);
+      const filiais = branchResponse.data?.filiais || [];
+
+      for (const filial of filiais) {
+        const coreBranch = blingToCoreBranch(
+          branchResponse.data,
+          filial,
+          companyErpId
+        );
+
+        try {
+          await sendBranchToB2B(coreBranch);
+          synced++;
+        } catch (error) {
+          if (isAxiosError(error) && error.response?.status === 409) {
+            alreadyExists++;
+            continue;
+          }
           throw error;
         }
       }
-
-      throw error;
     }
+
+    return {
+      total: synced + alreadyExists,
+      synced,
+      alreadyExists,
+    };
   }
 }
